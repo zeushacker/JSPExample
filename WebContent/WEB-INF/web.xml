@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>JSPExample</display-name>
+  <!-- <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <servlet-class>com.test.HelloServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>HelloServlet</servlet-name>
+  <url-pattern>/hello</url-pattern>
+  </servlet-mapping> -->
+
+<!-- <servlet>
+         <servlet-name>visitInsert</servlet-name>
+        <servlet-class>bbs.VisitInsert</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>visitInsert</servlet-name>
+<url-pattern>/VisitInsert</url-pattern>
+</servlet-mapping>
+
+<servlet>
+         <servlet-name>visitList</servlet-name>
+        <servlet-class>bbs.VisitList</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>visitList</servlet-name>
+<url-pattern>/VisitList</url-pattern>
+</servlet-mapping>
+ -->
+ 
+ <!-- 초기화 파라미터 값 등록 -->
+ 
+<!--  <servlet>
+ <servlet-name>initParam</servlet-name>
+ <servlet-class>com.test.InitParamServlet</servlet-class>
+ 
+ <init-param>
+ <param-name>dirPath</param-name>
+ <param-value>c:\\pk</param-value>
+ </init-param>
+ <init-param>
+ <param-name>userid</param-name>
+ <param-value>admin</param-value>
+  </init-param>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>initParam</servlet-name>
+  <url-pattern>/InitParam</url-pattern>
+  </servlet-mapping>
+  -->
+  
+  <!-- <context-param>
+               <param-name>driver</param-name>
+               <param-value>oracle.jdbc.driver.OracleDriver</param-value>
+  </context-param>
+  <context-param>
+               <param-name>savePath</param-name>
+               <param-value>c:\\pk</param-value>
+  </context-param>
+   -->
+  <!-- Listener  설정  (이벤트 등록 )-->
+ <!--  <listener>
+      <listener-class>com.test2.ContextListenerImpl</listener-class>
+  </listener> -->
+  
+  <!-- Filter 등록 -->
+ <!--  <filter>
+  <filter-name>myFilter</filter-name>
+  <filter-class>com.test2.MyFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  <filter-name>myFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+  </filter-mapping> -->
+  
+  
+  <servlet>
+  <servlet-name>Login</servlet-name>
+  <servlet-class>login.Login</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>Login</servlet-name>
+  <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>LoginCheck</servlet-name>
+  <servlet-class>login.LoginCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>LoginCheck</servlet-name>
+  <url-pattern>/LoginCheck</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+     <servlet-name>Logout</servlet-name>
+  <servlet-class>login.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  
+   <servlet-name>Logout</servlet-name>
+  <url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
