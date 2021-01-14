@@ -6,7 +6,7 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-@WebServlet("/VisitInsert")
+//@WebServlet("/VisitInsert")
 public class VisitInsert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

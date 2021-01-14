@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1> 여러개의 값 처리</h1>
+
+<form action="Sport" method="post">
+
+     <fieldset>
+           <legend>좋아하는 운동및 성별</legend>
+           <ul>
+               <li>
+                 <label for="baseball">야구</label>
+                 <input type="checkbox" name="sports" value="야구">
+                 <label for="football">축구</label>
+                 <input type="checkbox" name="sports" value="축구">
+                 <label for="basketball">농구</label>
+                 <input type="checkbox" name="sports" value="농구">
+               </li>
+               
+               <li>
+                     <label for="gender">남</label> 
+                      <input type="radio" name="gender" value="남" checked>
+                     <label for="gender">여</label>
+                     <input type="radio" name="gender" value="여">
+               </li>
+               
+               <li><input type="submit" value="전송"></li>
+           </ul>
+     </fieldset>
+
+</form>
+
+</body>
+</html>

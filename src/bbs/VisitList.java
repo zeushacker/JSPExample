@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.*;
 
 
-@WebServlet("/VisitList")
+//@WebServlet("/VisitList")
 public class VisitList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
