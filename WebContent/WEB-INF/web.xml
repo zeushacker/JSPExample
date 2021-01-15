@@ -114,11 +114,20 @@
        <location>/error/error500.jsp</location>
   </error-page>
   
-  <error-page>
-     <exception-type>java.lang.NullPointerException</exception-type>
-     <location>/error/errorNullPointer.jsp</location>
-  </error-page>
+<error-page>
+<exception-type>java.lang.NullPointerException</exception-type>
+<location>/error/errorNullPointer.jsp</location>
+</error-page>
   
+  
+  <context-param>
+               <param-name>manager</param-name>
+               <param-value>gil dong Hong</param-value>
+  </context-param>
+  <context-param>
+               <param-name>company</param-name>
+               <param-value>global</param-value>
+  </context-param>
   
   
   
