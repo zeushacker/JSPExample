@@ -7,6 +7,6 @@
 <title></title>
 </head>
 <body>
-
+좌측메뉴:
 </body>
 </html>

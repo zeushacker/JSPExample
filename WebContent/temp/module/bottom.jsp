@@ -7,6 +7,6 @@
 <title></title>
 </head>
 <body>
-
+하단메뉴 : 소개 | 도움말 | 약관 | 사이트 맵
 </body>
 </html>
