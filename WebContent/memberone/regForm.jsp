@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Register Form</title>
 <link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 <form action="regProc.jsp" method="post" name="regForm">
@@ -19,7 +20,8 @@
       <td align="right">아이디: </td>
       <td>
       <input type="text" name="id">&nbsp;
-      <input type="button" value="중복확인" onclick="#">
+      <input type="button" value="중복확인" 
+      onclick="idCheck(this.form.id.value)">
       </td>
    </tr>
   
@@ -62,7 +64,8 @@
       <td align="right">우편번호: </td>
       <td>
       <input type="text" name="zipcode">&nbsp;
-      <input type="button" value="찾기" onclick="#">
+      <input type="button" value="찾기" 
+      onclick="zipCheck()">
       </td>
    </tr>
    
