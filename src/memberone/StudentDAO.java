@@ -1,6 +1,8 @@
 package memberone;
 
 import java.sql.*;
+import java.util.Vector;
+
 import javax.sql.*;
 import javax.naming.*;
 
@@ -55,6 +57,51 @@ public class StudentDAO {
 		return result;
 		
 	}// end idCheck
+	
+	
+	// 우편번호를 데이터베이스에서 검색한 결과를 vector에 저장하여 리턴해 주는 
+	// 메소드 구현
+	
+	public Vector<ZipCodeVO> zipcodeRead(String dong) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Vector<ZipCodeVO> vecList = new Vector<ZipCodeVO>();
+		
+		try {
+			
+			conn =getConnection();
+			
+			String strQuery =
+					"select * from zipcode where dong like '"+dong+"%'";
+			
+			pstmt = conn.prepareStatement(strQuery);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ZipCodeVO tempZipcode = new ZipCodeVO();
+				tempZipcode.setZipcode(rs.getString("zipcode"));
+				tempZipcode.setSido(rs.getString("sido"));
+				tempZipcode.setGugun(rs.getString("gugun"));
+				tempZipcode.setDong(rs.getString("dong"));
+				tempZipcode.setRi(rs.getString("ri"));
+				tempZipcode.setBunji(rs.getString("bunji"));
+				vecList.addElement(tempZipcode);
+			}
+			
+		}catch(SQLException ss) {
+			ss.printStackTrace();
+		}finally {
+			if(rs != null) try {rs.close();}catch(SQLException s) {}
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+		}
+		
+		return vecList;
+	}// end zipCode
+	
+	
 	
 	
 	
