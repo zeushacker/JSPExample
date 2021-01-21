@@ -2,7 +2,6 @@ package memberone;
 
 import java.sql.*;
 import java.util.Vector;
-
 import javax.sql.*;
 import javax.naming.*;
 
@@ -79,7 +78,7 @@ public class StudentDAO {
 			pstmt = conn.prepareStatement(strQuery);
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
+			while(rs.next()) { 
 				ZipCodeVO tempZipcode = new ZipCodeVO();
 				tempZipcode.setZipcode(rs.getString("zipcode"));
 				tempZipcode.setSido(rs.getString("sido"));
@@ -101,9 +100,48 @@ public class StudentDAO {
 		return vecList;
 	}// end zipCode
 	
+	// 실제로 데이터베이스에 회원데이터를 추가하기 위하여 메소드를 추가
 	
-	
-	
+	public boolean memberInsert(StudentVO vo) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//ResultSet rs = null;
+		boolean flag = false; //회원추가 성공 여부
+		
+	  try {
+		  conn = getConnection();
+		  
+		  String strQuery = "insert into student values(?,?,?,?,?,?,?,?,?,?)";
+		  
+		  pstmt = conn.prepareStatement(strQuery);
+		  
+		  pstmt.setString(1, vo.getId());
+		  pstmt.setString(2, vo.getPass());
+		  pstmt.setString(3, vo.getName());
+		  pstmt.setString(4, vo.getPhone1());
+		  pstmt.setString(5, vo.getPhone2());
+		  pstmt.setString(6, vo.getPhone3());
+		  pstmt.setString(7, vo.getEmail());
+		  pstmt.setString(8,vo.getZipcode());
+		  pstmt.setString(9, vo.getAddress1());
+		  pstmt.setString(10, vo.getAddress2());
+		  
+		  int count = pstmt.executeUpdate();
+		  // 테이가 추가된경우
+		  if( count > 0) flag = true;
+		  
+	  }catch(Exception e) {
+		 // e.printStackTrace();
+		  System.out.println("Exception :"+e);
+	  }finally {
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+	  }
+		
+	  return flag;
+
+	}// end memberInsert
 	
 	
 	
