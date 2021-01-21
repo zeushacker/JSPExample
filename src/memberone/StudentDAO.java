@@ -176,8 +176,88 @@ public class StudentDAO {
 	}// end loginCheck
 	
 	
+	// 아이디를 가지고 회원정보를 가져올 메소드 구현
 	
-	
+	  public StudentVO getMember(String id) {
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			StudentVO vo = null;
+			
+			try {
+		conn = getConnection();
+		pstmt = conn.prepareStatement("select * from student where id=?");
+		
+		pstmt.setString(1, id);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {// 해당 아이디에 회원이 존재하면
+			
+			vo = new StudentVO();
+			
+			vo.setId(rs.getString("id"));
+			vo.setPass(rs.getString("pass"));
+			vo.setName(rs.getString("name"));
+			vo.setPhone1(rs.getString("phone1"));
+			vo.setPhone2(rs.getString("phone2"));
+			vo.setPhone3(rs.getString("phone3"));
+			vo.setEmail(rs.getString("email"));
+			vo.setZipcode(rs.getString("zipcode"));
+			vo.setAddress1(rs.getString("address1"));
+			vo.setAddress2(rs.getString("address2"));
+	     	}
+		}catch (Exception se) {
+			se.printStackTrace();
+		} finally {	
+			if (rs != null) try { rs.close(); } catch (SQLException se) {	}
+			if (pstmt != null) 	try { pstmt.close(); } catch (SQLException se) {	}
+			if (conn != null) 	try { conn.close(); 	} catch (SQLException se) { 	}
+		  }
+		return vo;
+	}// end getMember
+		
+	  
+	// 회원정보를 수정하기 위해 정보수정을 처리해줄 메소드 구현
+	public void updateMember(StudentVO vo) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			conn = getConnection();
+			pstmt = conn.prepareStatement(
+		"update student set pass=?, phone1=?, phone2=?, "
+		+ "phone3=?, email=?, zipcode=?, address1=?, "
+		+ "address2=? where id=?");
+			
+			  pstmt.setString(1, vo.getPass());
+			  pstmt.setString(2, vo.getPhone1());
+			  pstmt.setString(3, vo.getPhone2());
+			  pstmt.setString(4, vo.getPhone3());
+			  pstmt.setString(5, vo.getEmail());
+			  pstmt.setString(6,vo.getZipcode());
+			  pstmt.setString(7, vo.getAddress1());
+			  pstmt.setString(8, vo.getAddress2());
+			  pstmt.setString(9, vo.getId());
+						
+		      pstmt.executeUpdate();
+		
+		}catch(Exception e) {
+			 // e.printStackTrace();
+			  System.out.println("Exception :"+e);
+		  }finally {
+				if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+				if(conn != null) try {conn.close();}catch(SQLException s) {}
+		  }
+	}// end updateMember
+	  
+	  
+	  
+	  
+	  
 	
 	
 	
