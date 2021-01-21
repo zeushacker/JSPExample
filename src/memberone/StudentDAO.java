@@ -143,6 +143,41 @@ public class StudentDAO {
 
 	}// end memberInsert
 	
+	// loginCheck 메소드 추가 : 로그인성공 :1, 비밀번호 오류 : 0, 아이디 없음 : -1
+	public int loginCheck(String id, String pass) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int check = -1;// 아이디 없음
+		
+		try {
+			conn = getConnection();
+			String strQuery ="select pass from student where id=?";
+			pstmt = conn.prepareStatement(strQuery);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String dbPass = rs.getString("pass");
+				if(pass.equals(dbPass)) check = 1;
+				else check = 0;
+			}
+		}catch(SQLException ss) {
+			ss.printStackTrace();
+		}finally {
+			if(rs != null) try {rs.close();}catch(SQLException s) {}
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+		}
+		return check;
+	}// end loginCheck
+	
+	
+	
+	
 	
 	
 	
