@@ -9,7 +9,8 @@
   String id = request.getParameter("id");
   String passwd = request.getParameter("passwd");
   // 폼에 있는 아이디와 비밀번호를 가져옴
-  
+  System.out.println(id);
+  System.out.println(passwd);
   // 디비연결
   LogonDBBean manager = LogonDBBean.getInstance();
   

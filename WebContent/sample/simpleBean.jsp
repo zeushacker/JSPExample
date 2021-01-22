@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   <%@ page import="sample.SimpleData" %> 
+ <%--   <%@ page import="sample.SimpleData" %>  --%>
  <%
               request.setCharacterEncoding("utf-8");
              // String message = request.getParameter("message");

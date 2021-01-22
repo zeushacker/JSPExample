@@ -32,6 +32,7 @@ public class tempMemberDAO {
 			
 			conn= DriverManager.getConnection(JDBC_URL, USER, PASS);
 			
+			
 			String strQuery ="select * from tempmember";
 			
 			stmt = conn.createStatement();

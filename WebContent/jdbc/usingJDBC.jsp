@@ -32,6 +32,7 @@
 	stmt = conn.createStatement();
 	
 	rs = stmt.executeQuery("select * from tempmember");
+	  
 
 %>
 
