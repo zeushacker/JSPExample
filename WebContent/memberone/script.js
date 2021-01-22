@@ -221,6 +221,18 @@ else {
 }
 
 
+function checkIt() {
+	if(!document.myForm.pass.value){
+		alert("비밀번호를 입력 하지 않으셨습니다.");
+		document.myForm.pass.focus();
+		return false;
+	}
+}
+
+function begin() {
+	document.myForm.pass.focus();
+}
+
 
 
 
