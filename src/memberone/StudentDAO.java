@@ -254,13 +254,55 @@ public class StudentDAO {
 		  }
 	}// end updateMember
 	  
-	  
-	  
-	  
-	  
+	 // 회원탈퇴 버튼을 클릭하게 되면 실제 디비에서 삭제처리가 되어야하므로
+	// 삭제 처리하는 메소드 구현
 	
-	
-	
-	
+	public int deleteMember(String id, String pass) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String dbPass =""; // 디비에서 비밀번호를 가져다가 저장
+		
+		int result = -1;// 아이디가 존재하지 않음
+		
+		try {
+			
+			conn = getConnection();
+			
+			pstmt = conn.prepareStatement(
+					"select pass from student where id=?");
+			
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				// 디비에 저장되어 있는 비밀번호를 가져다가 저장
+				dbPass = rs.getString("pass");
+				
+				if(dbPass.equals(pass)) {// 1 이면 본인 확인 
+					// 삭제처리 
+					pstmt = conn.prepareStatement(
+							"delete from student where id=?");
+					pstmt.setString(1, id);
+					pstmt.executeUpdate();
+					result =1;// 회원탈퇴 성공
+				}else {// 비밀번호 오류
+					result = 0;
+				}
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (rs != null) try { rs.close(); } catch (SQLException se) {	}
+			if (pstmt != null) 	try { pstmt.close(); } catch (SQLException se) {	}
+			if (conn != null) 	try { conn.close(); 	} catch (SQLException se) { 	}
+		}
+		
+		return result;
+	}
 	
 }

@@ -18,15 +18,6 @@
 
 %>
 
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
