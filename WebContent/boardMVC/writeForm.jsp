@@ -27,6 +27,7 @@
  	// 답변글일 경우 원글(부모)의 num를 받아와서 넘겨줌 이것으로 새글과 답변글을 구분함	   
   %>
 <body bgcolor="<%=bodyback_c%>">
+<%@ include file="/inc/header.jsp" %>
 <center><b>글쓰기</b></center><br><br>
 
 <form action="writeProc.jsp" 
