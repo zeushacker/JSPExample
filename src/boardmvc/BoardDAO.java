@@ -231,7 +231,105 @@ public BoardVO getArticle(int num) {
 	
 }// end getArticle
 
+// 상세보기에서 글 수정 버튼을 누르게 되면 수정페이지로 이동
+// 게시판에 가져올 게시물을 번호를 조건으로 하여 가져옴
+public BoardVO updateGetArticle(int num) {
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	BoardVO article = null;
+	
+	try {
+		
+         conn = ConnUtil.getConnection();
+		
+		pstmt = conn.prepareStatement(
+				"select * from board where num=?");
+		   // 제목을 클릭하면 조회수 증가
+		
+		pstmt.setInt(1, num);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			
+			article = new BoardVO();
+			article.setNum(rs.getInt("num"));
+			article.setWriter(rs.getString("writer"));
+			article.setEmail(rs.getString("email"));
+			article.setSubject(rs.getString("subject"));
+			article.setPass(rs.getString("pass"));
+			article.setRegdate(rs.getTimestamp("regdate"));
+			article.setReadcount(rs.getInt("readcount"));
+			article.setRef(rs.getInt("ref"));
+			article.setStep(rs.getInt("step"));
+			article.setDepth(rs.getInt("depth"));
+			article.setContent(rs.getString("content"));
+			article.setIp(rs.getString("ip"));
+		}
+		
+	}catch(Exception e) {
+		e.printStackTrace();
+	}finally {
+		if(rs != null) try {rs.close();}catch(SQLException s) {}
+		if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+		if(conn != null) try {conn.close();}catch(SQLException s) {}
+	}
+	
+	return article;
+	
+   }
 
+
+   // 글 수정 처리 (메소드 구현)
+  // 디비에서 실제 데이터 수정이 되어야함   글 수정 처리 메소드 구현
+  public int updateArticle(BoardVO article) {
+	  
+	  Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String dbpasswd="";
+		String sql="";
+		int result = -1; // 결과 없음  , 1: 수정성공, 0: 수정 실패
+	  
+		 try {
+			 conn = ConnUtil.getConnection();
+			 pstmt = conn.prepareStatement("select pass from board where num=?");
+			 pstmt.setInt(1, article.getNum());
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 // 비밀번호 비교 
+				 dbpasswd = rs.getString("pass");
+				 
+				 if(dbpasswd.equals(article.getPass())) {
+					 // 비밀번호가 같으면 수정처리
+					 sql ="update board set writer=?, email=?, "
+					 		+ "subject=?, content=? where num=?";
+					 
+					 pstmt = conn.prepareStatement(sql);
+					 pstmt.setString(1, article.getWriter());
+					 pstmt.setString(2, article.getEmail());		 
+					 pstmt.setString(3, article.getSubject());		 
+					 pstmt.setString(4, article.getContent());
+					 pstmt.setInt(5, article.getNum());
+					 pstmt.executeUpdate();
+					 
+					 result = 1; //수정성공
+				 }else {
+					 result = 0;//비밀번호 오류
+				 }
+			 }
+		 }catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				if(rs != null) try {rs.close();}catch(SQLException s) {}
+				if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+				if(conn != null) try {conn.close();}catch(SQLException s) {}
+			}
+		return result;
+   }
 
 	
 	
