@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- 실제 목록을 화면에 보여줄 페이지  --%> 
-    
 <%@ page import="boardmvc.BoardDAO" %>    
 <%@ page import="boardmvc.BoardVO" %>
 <%@ page import="java.util.List" %>    
@@ -9,6 +8,7 @@
 <%@ include file="view/color.jsp" %>
 
 <%
+
 // 날짜 형식 지정
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -44,7 +44,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 </head>
 <body bgcolor="<%=bodyback_c%>">
 <%@ include file="/inc/header.jsp" %>
-<center><b>글목록(전체 글:<%=count %>)</b>
+
+<div align="center">
+<b>글목록(전체 글:<%=count %>)</b>
 
 <table width="700">
 
@@ -116,6 +118,6 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 </table>
 <% } %>
-</center>
+</div>
 </body>
 </html>

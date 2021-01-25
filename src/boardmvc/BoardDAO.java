@@ -174,6 +174,64 @@ public List<BoardVO> getArticles() {
 	return articleList;
 }// end List (getArticles)
 
+// 글 내용보기 화면
+// 글 제목을 누르면 글 내용을 볼수 있는 작업
+// num을 매개변수로 해서 하나의 글에 대한 상세정보를 데이터베이스에서 가져옴
+
+public BoardVO getArticle(int num) {
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	BoardVO article = null;
+	
+	try {
+		
+		conn = ConnUtil.getConnection();
+		
+		pstmt = conn.prepareStatement(
+				"update board set readcount = readcount+1 where num=?");
+		   // 제목을 클릭하면 조회수 증가
+		
+		pstmt.setInt(1, num);
+		pstmt.executeUpdate();
+		
+		// num 에 해당하는 글을 조회함
+		pstmt = conn.prepareStatement("select * from board where num=?");
+		
+		pstmt.setInt(1, num);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next())  {// ResultSet 에서 가져와서 vo에 저장함
+			
+			article = new BoardVO();
+			article.setNum(rs.getInt("num"));
+			article.setWriter(rs.getString("writer"));
+			article.setEmail(rs.getString("email"));
+			article.setSubject(rs.getString("subject"));
+			article.setPass(rs.getString("pass"));
+			article.setRegdate(rs.getTimestamp("regdate"));
+			article.setReadcount(rs.getInt("readcount"));
+			article.setRef(rs.getInt("ref"));
+			article.setStep(rs.getInt("step"));
+			article.setDepth(rs.getInt("depth"));
+			article.setContent(rs.getString("content"));
+			article.setIp(rs.getString("ip"));
+			
+		}
+ 	}catch(Exception e) {
+		e.printStackTrace();
+	}finally {
+		if(rs != null) try {rs.close();}catch(SQLException s) {}
+		if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+		if(conn != null) try {conn.close();}catch(SQLException s) {}
+	}
+	
+	return article;
+	
+}// end getArticle
+
+
 
 	
 	
