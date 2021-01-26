@@ -122,8 +122,8 @@ public int getArticleCount() {
 	
 // 테이블에서 실제 데이터를 가져올 메소드 구현
 // List
-
-public List<BoardVO> getArticles() {
+// start : 시작번호, end : 끝번호
+public List<BoardVO> getArticles(int start, int end) {//1
 
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -133,14 +133,25 @@ public List<BoardVO> getArticles() {
 	
 	try {
 		conn = ConnUtil.getConnection();
-		
+		//2
+		//pstmt = conn.prepareStatement("select * from board order by num desc");
 		pstmt = conn.prepareStatement(
-				"select * from board order by num desc");
+				"select * from ("
+				+ "select rownum rnum, num, writer, email, subject, "
+				+ "pass, regdate, readcount, ref, step, depth, content, ip from ("
+				+ "select * from board order by ref desc, step asc))"
+				+ " where rnum > ? and num <= ? ");
+	
+		//3
+		pstmt.setInt(1, start);
+		pstmt.setInt(2, end);
+		
+		
 		rs = pstmt.executeQuery();
 		
 		if(rs.next()) {
 			
-			articleList = new ArrayList<BoardVO>();
+			articleList = new ArrayList<BoardVO>(end-start+1);//4
 			
 			do {
 				BoardVO article = new BoardVO();
@@ -332,6 +343,64 @@ public BoardVO updateGetArticle(int num) {
    }
 
 	
+  // 글 삭제처리
+  // 데이터베이스에서 비밀번호를 검색해서 실제 비밀번호와 폼에 입력한 비밀번호가 맞는지
+  // 비교하고 맞으면 삭제처리 틀리면 비밀번호 오류   -1 : 실패, 0: 비밀번호 오류 , 1: 성공
+  
+  public int deleteArticle(int num, String pass) {
+	  
+	  Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String dbpasswd="";
+		String sql="";
+		int result = -1; // 결과 없음  , 1: 수정성공, 0: 수정 실패
+	  
+		 try {
+			 conn = ConnUtil.getConnection();
+			 pstmt = conn.prepareStatement("select pass from board where num=?");
+			 pstmt.setInt(1, num);
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 // 비밀번호 비교 
+				 dbpasswd = rs.getString("pass");
+				 
+				 if(dbpasswd.equals(pass)) {
+					 // 비밀번호가 같으면 수정처리
+					 sql ="delete from board where num=?";
+					 
+					 pstmt = conn.prepareStatement(sql);
+					 pstmt.setInt(1, num);
+					
+					 pstmt.executeUpdate();
+					 
+					 result = 1; //삭제 성공
+				 }
+				 else 
+				 result = 0;//비밀번호 오류
+			 }
+		  
+	  }catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) try {rs.close();}catch(SQLException s) {}
+			if(pstmt != null) try {pstmt.close();}catch(SQLException s) {}
+			if(conn != null) try {conn.close();}catch(SQLException s) {}
+		}
+	return result;
+  
+  }// end delete
+  
+  
+  
+  
+  
+  
+  
+  
+  
 	
 	
 	
