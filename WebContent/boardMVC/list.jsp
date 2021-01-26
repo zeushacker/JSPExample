@@ -9,15 +9,30 @@
 
 <%
 
+//1
+// 한 페이지에 보여줄 글 목록 수 지정
+int pageSize = 10;
+
 // 날짜 형식 지정
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-  int count = 0;
-  int number = 0;
+//2
+String pageNum = request.getParameter("pageNum");
+if(pageNum == null) {
+	pageNum = "1";
+}
+
+int currentPage = Integer.parseInt(pageNum);
+
+int startRow = (currentPage -1) * pageSize + 1;
+int endRow = currentPage * pageSize;
+
+int count = 0;
+int number = 0;
   
-  List<BoardVO> articleList = null;
+List<BoardVO> articleList = null;
   
-  BoardDAO dbPro = BoardDAO.getInstance();
+BoardDAO dbPro = BoardDAO.getInstance();
   
   // 전체 글 수 
   count  = dbPro.getArticleCount();
@@ -26,11 +41,11 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
   if(count > 0) {
 	  // 하나라도 존재하면 리스트를 출력
 	  
-	  articleList = dbPro.getArticles();
+	  articleList = dbPro.getArticles(startRow, endRow);//3
 	  
   }
   
-  number = count;
+  number = count-(currentPage - 1) * pageSize;//4
   
 %>
     
@@ -85,13 +100,29 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 <td align="center" width="50"> <%=number-- %></td>
              
                <td width="250">
-                       <%-- 게시글의 클릭하면 페이지 이동하면서 
+               <%-- 5 --%>
+               <%
+                      int wid=0;
+                   
+                     if(article.getDepth() > 0) {
+                    	 wid = 5 * (article.getDepth());
+              	 %>
+              	 <img  src="img/level.gif" width=<%=wid %> height="16">       
+                 <img  src="img/re.gif">
+                 <%} else {%>
+                <img  src="img/level.gif" width=<%=wid %> height="16">
+                <%} %>
+               
+                  <%-- 게시글의 클릭하면 페이지 이동하면서 
                                  쿼리스트리밍으로 url 출력 (상세 페이지로 이동) 
                                  페이지는 현재 페이지 
                           --%>
-                    <a href="content.jsp?num=<%=article.getNum()%>&pageNum=1">
+                  
+                   <%-- 6 --%>
+                   <a href="content.jsp?num=<%=article.getNum()%>&pageNum=<%=currentPage%>">
+                   
                     <%=article.getSubject() %></a>
-                    <%if(article.getReadcount() >= 20) { %>
+                    <%if(article.getReadcount() >=20) { %>
                     <%-- 조회수가 20 이상일경우 이미지 출력 --%>
                     <img  src="img/hot.gif" border="0" height="16">
                     <%} %>
@@ -118,6 +149,50 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 </table>
 <% } %>
+<%-- 7 --%>
+<%
+// 페이지 블록
+
+if(count > 0) {
+	
+	int pageBlock = 5;
+	int imsi = count % pageSize == 0 ? 0 : 1;
+	
+	int pageCount = count / pageSize + imsi;
+	
+	// 시작 페이지
+	int startPage =(int)((currentPage -1)/pageBlock)*pageBlock+1;
+	
+	// 마지막 페이지
+	int endPage = startPage + pageBlock - 1;
+	
+	// 마지막  보여줄 페이지
+	if(endPage > pageCount) endPage = pageCount;
+	
+	// 페이지 블록을 이전과 다음 처리작업
+	
+	if (startPage > pageBlock) {
+		%>
+		<a href="list.jsp?pageNum=<%=startPage-pageBlock%>">[이전]</a>
+  <%
+	}
+
+	for(int i =startPage; i<=endPage; i++) {
+  %>		
+
+   			<a href="list.jsp?pageNum=<%=i%>">[<%=i %>]</a>
+	
+	<%}// end for 
+	if(endPage < pageCount) { %>
+	
+	<a href="list.jsp?pageNum=<%=startPage + pageBlock%>">[다음]</a>
+	
+<%	
+	}
+
+}
+%>
+
 </div>
 </body>
 </html>
