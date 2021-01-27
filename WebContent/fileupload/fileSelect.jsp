@@ -66,8 +66,6 @@ function elementCheck(formName) {
 			}
 			paramIndex++;
 		}
-		
-		
 	}
 	
 	formName.action="fileView.jsp";
