@@ -6,6 +6,8 @@ import mvcMem.action.IndexAction;
 import mvcMem.action.LoginFormAction;
 import mvcMem.action.LoginProcAction;
 import mvcMem.action.LogoutAction;
+import mvcMem.action.ModifyFormAction;
+import mvcMem.action.ModifyProcAction;
 import mvcMem.action.RegFormAction;
 import mvcMem.action.RegProcAction;
 import mvcMem.action.ZipCheckAction;
@@ -60,6 +62,19 @@ public class ActionFactory {
 		case "logout" :
 			action = new LogoutAction();
 			break;	
+			
+		case "modifyForm" :
+			action = new ModifyFormAction();
+			break;		
+		
+		
+		  case "modifyProc" : 
+			  action = new ModifyProcAction(); 
+			  break;
+		 
+			
+			
+			
 			
 		}
 		
