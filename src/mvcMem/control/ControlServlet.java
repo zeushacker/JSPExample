@@ -23,13 +23,23 @@ public class ControlServlet extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		// 명령어 파라미터
 		
-		if(cmd != null) {
+	/*	if(cmd != null) {
 			//  싱글톤으로 객체 생성
 			ActionFactory factory = ActionFactory.getInstance();
 		    Action action = factory.getAction(cmd);
 		    
 		    ActionForward af = action.execute(request, response);
-		    
+		    */
+		
+		  if (cmd != null) {// 요청값이 있다면
+
+		         // 싱글톤으로 객체 생성
+		         ActionFactory factory = ActionFactory.getInstance();
+		         Action action = factory.getAction(cmd);
+
+		         ActionForward af = action.execute(request, response);
+
+
 		    if(af.isRedirect()) {
 		    	response.sendRedirect(af.getUrl());
 		    }else {
