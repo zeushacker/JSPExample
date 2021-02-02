@@ -73,7 +73,7 @@ align="center" bgcolor="${bodyback_c}">
 </tr>
 
 <tr>
-    <td colspan="2" bgcolor="${value_c}"" align="center">
+    <td colspan="2" bgcolor="${value_c}" align="center">
              <input type="submit" value="글쓰기">
              <input type="reset" value="다시작성">
              <input type="button" value="목록" 
